@@ -79,4 +79,4 @@ class YbMOTLockTab(DeviceTab):
 
         self.ui.printer.setText("Array sent")
         self.ui.printer.setStyleSheet("color: black")
-        yield (self.queue_work(self.primary_worker, 'i2c_send',[startFreq, endFreq, stepnum]))
+        yield(self.queue_work(self.primary_worker, 'i2c_send',startFreq, endFreq, stepnum))

@@ -45,9 +45,13 @@ class I2C(BBIO):
 		return self.response()
 	
 	def send_stop_bit(self):
+		answer = 0
+		self.port.flush()
+		# while answer == 0:
 		self.port.write(b"\x03")
-		#self.timeout(0.1)
-		return self.response()
+			#self.timeout(0.1)
+		answer = self.response()
+		return answer
 		
 	def read_byte(self):
 		self.port.write(b"\x04")

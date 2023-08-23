@@ -111,7 +111,7 @@ void setup()
   setpoint_change_interrupt_setup();
   I2C_init();
   pinMode(50,OUTPUT);
-//  delay(2000);
+  delay(2000);
 }
 void loop()
 {
@@ -148,7 +148,7 @@ void setpoint_change_interrupt_setup()
   pmc_enable_periph_clk(ID_PIOB);
   NVIC_DisableIRQ(PIOB_IRQn);
   NVIC_ClearPendingIRQ(PIOB_IRQn);
-  NVIC_SetPriority(PIOB_IRQn, -2);
+  NVIC_SetPriority(PIOB_IRQn, -2-1);
   NVIC_EnableIRQ(PIOB_IRQn);
 
 
@@ -179,7 +179,7 @@ void adc_setup()
   pmc_enable_periph_clk(ID_ADC);
   NVIC_DisableIRQ(ADC_IRQn);
   NVIC_ClearPendingIRQ(ADC_IRQn);
-  NVIC_SetPriority(ADC_IRQn, 0);
+  NVIC_SetPriority(ADC_IRQn, 0-4);
   NVIC_EnableIRQ(ADC_IRQn);
   analogWriteResolution(12);
 }
@@ -194,7 +194,7 @@ void global_digital_interrupt_setup()
   pmc_enable_periph_clk(ID_PIOC);
   NVIC_DisableIRQ(PIOC_IRQn);
   NVIC_ClearPendingIRQ(PIOC_IRQn);
-  NVIC_SetPriority(PIOC_IRQn, -1);
+  NVIC_SetPriority(PIOC_IRQn, -1-1);
   NVIC_EnableIRQ(PIOC_IRQn);
  
   //Additional Interrupt Modes Enable Register
@@ -235,7 +235,7 @@ void dacc_setup()
   //DACC Interrupt NVIC Enable
   NVIC_DisableIRQ(DACC_IRQn);
   NVIC_ClearPendingIRQ(DACC_IRQn);
-  NVIC_SetPriority(DACC_IRQn, 0);
+  NVIC_SetPriority(DACC_IRQn, 0-4);
   NVIC_EnableIRQ(DACC_IRQn);
 }
 
@@ -506,20 +506,6 @@ void DACC_Handler()
    
   }
   */
-    frequency_changed = (LASER_REFERENCE - LASER_REFERENCE_MOT) / setpoint_change_factor;
- Serial.print(cavity_control_signal);
-  Serial.print(",");
-  Serial.print(laser_control_signal);
-  Serial.print(",");
-  Serial.print(frequency_changed);
-//  Serial.print(",");
-//  Serial.print(Length[0]);
-//  Serial.print(",");
-//  Serial.print(Length[1]);
-//  Serial.print(",");
-//  Serial.print(Length[2]);
-//Serial.print(average_laser_error_signal);
-  Serial.println();
   if (laser_control_signal_recorder){
     if (laser_control_signal == laser_control_signal_recorder){
       broken_counter ++;
@@ -630,7 +616,7 @@ void I2C_init(){
   NVIC_DisableIRQ(TWI0_IRQn);
   NVIC_ClearPendingIRQ(TWI0_IRQn);
   // NVIC_SetPriority(TWI0_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 3, 3));
-  NVIC_SetPriority(TWI0_IRQn, -3);
+  NVIC_SetPriority(TWI0_IRQn, -5);
   NVIC_EnableIRQ(TWI0_IRQn);
   TWI0->TWI_PTCR = TWI_PTCR_RXTDIS | TWI_PTCR_TXTDIS;	// Disable PDC channel
   TWI_ConfigureSlave(TWI0, 0x11);	// set to master mode
